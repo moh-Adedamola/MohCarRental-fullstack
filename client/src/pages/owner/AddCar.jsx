@@ -155,13 +155,13 @@ const AddCar = () => {
                 {/* Car Location */}
                 <div className='flex flex-col w-full'>
                     <label>Location</label>
-                    <select onChange={e => setCar({ ...car, fuel_type: e.target.value })} value={car.fuel_type}
+                    <select onChange={e => setCar({ ...car, location: e.target.value })} value={car.location}
                         className='px-3 py-2 mt-1 border border-borderColor rounded-md outliine-none'>
                         <option value="">Select A Location</option>
                         <option value="Lagos">Lagos</option>
                         <option value="Abuja">Abuja</option>
                         <option value="Ibadan">Ibadan</option>
-                        <option value="Osun">Osun</option>
+                        <option value="Ilorin">Ilorin</option>
                     </select>
                 </div>
                 {/* Car Description */}

@@ -7,16 +7,16 @@ const Testimonial = () => {
 
  const testimonials = [
         { name: "Emma Rodriguez", 
-          location: "Barcelona, Spain",
+          location: "Abuja, Nigeria",
           image: assets.testimonial_image_1, 
           testimonial: "I have rented cars from various companies, but the experience with CarRental was exceptional."
         },
-        { name: "Wale Ogunmepon", 
+        { name: "oliva jackson", 
           location: "Lagos, Nigeria ",
           image: assets.testimonial_image_2, 
           testimonial: "CarRental made m trip so much easier. The car was delivered right to my door, and the customer service was fantastic."
         },
-        { name: "Otunba Samuel", 
+        { name: "Lara smith", 
           location: "Ibadan, Nigeria",
           image: assets.testimonial_image_1, 
           testimonial: "I highly recommend CarRental! Their fleet is amazing, and I always feel like I'm getting the best deal with excellent service."
