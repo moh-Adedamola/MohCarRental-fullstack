@@ -6,13 +6,13 @@ import { toast } from 'react-hot-toast'
 import {motion} from 'motion/react'
 
 const Navbar = () => {
-
+    
     const {setShowLogin, user, logout, isOwner, axios, setIsOwner} = useAppContext()
-
+    
     const location = useLocation()
     const [open, setOpen] = useState(false)
     const navigate = useNavigate()
-
+    
     const changeRole = async ()=> {
         try {
             const { data } = await axios.post('/api/owner/change-role')
@@ -27,6 +27,30 @@ const Navbar = () => {
         }
     }
 
+    // Close menu when clicking on a link
+    const handleLinkClick = () => {
+        setOpen(false)
+    }
+
+    // Close menu when clicking on buttons
+    const handleOwnerClick = () => {
+        if (isOwner) {
+            navigate('/owner')
+        } else {
+            changeRole()
+        }
+        setOpen(false)
+    }
+
+    const handleAuthClick = () => {
+        if (user) {
+            logout()
+        } else {
+            setShowLogin(true)
+        }
+        setOpen(false)
+    }
+
 return (
     <motion.div
     initial={{y: -20, opacity: 0}}
@@ -39,12 +63,25 @@ return (
             <motion.img whileHover={{scale: 1.05}} src={assets.logo} alt="logo" className="h-8"/>
         </Link>
 
+        {/* Mobile menu overlay */}
+        {open && (
+            <div 
+                className="sm:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+                onClick={() => setOpen(false)}
+            />
+        )}
+
         <div className={`max-sm:fixed max-sm:h-screen max-sm:w-full max-sm:top-16
         max-sm:border-t border-borderColor right-0 flex flex-col sm:flex-row
         items-start sm:items-center gap-4 sm:gap-8 max-sm:p-4 transition-all
         duration-300 z-50 ${location.pathname === "/" ? "bg-light" : "bg-white"} ${open ? "max-sm:translate-x-0" : "max-sm:translate-x-full"}`}>
             {menuLinks.map((link, index)=> (
-                <Link key={index} to={link.path}>
+                <Link 
+                    key={index} 
+                    to={link.path}
+                    onClick={handleLinkClick}
+                    className="block w-full sm:w-auto py-2 sm:py-0 hover:text-primary transition-colors"
+                >
                     {link.name}
                 </Link>
             ))}
@@ -57,18 +94,30 @@ return (
             </div>
             <div className='flex max-sm:flex-col items-start sm:items-center gap-6'>
 
-                <button onClick={()=> isOwner ? navigate('/owner') : changeRole()}
-                 className="cursor-pointer">{isOwner ? 'Dashboard' : 'List Cars'}</button>
+                <button 
+                    onClick={handleOwnerClick}
+                    className="cursor-pointer hover:text-primary transition-colors py-2 sm:py-0"
+                >
+                    {isOwner ? 'Dashboard' : 'List Cars'}
+                </button>
 
-                <button onClick={()=> {user ? logout() : setShowLogin(true)}} className="cursor-pointer px-8 py-2 bg-primary
-                hover:bg-primary-dull transition-all text-white rounded-lg">{user ? 'Logout' : 'Login'}</button>
+                <button 
+                    onClick={handleAuthClick} 
+                    className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg"
+                >
+                    {user ? 'Logout' : 'Login'}
+                </button>
             </div>
         </div>
 
-        <button className='sm:hidden cursor-pointer' arial-label="Menu" onClick={() => setOpen(!open)}>
+        <button 
+            className='sm:hidden cursor-pointer z-50' 
+            aria-label="Menu" 
+            onClick={() => setOpen(!open)}
+        >
             <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" />
         </button>
-        
+            
     </motion.div>
   )
 }
